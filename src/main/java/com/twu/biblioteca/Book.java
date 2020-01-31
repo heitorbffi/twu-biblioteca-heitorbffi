@@ -15,6 +15,10 @@ public class Book {
         this.available = true;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
     public void rent() {
         available = false;
     }
