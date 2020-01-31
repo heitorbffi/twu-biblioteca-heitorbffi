@@ -9,7 +9,7 @@ public class BibliotecaApp {
         BookCatalogue bookCatalogue = new BookCatalogue();
         bookCatalogue.generateBooks();
 
-        printTitles(bookCatalogue.listTitles());
+        printBooksInfo(bookCatalogue.listBooksInfo());
     }
 
     public static String createWelcomeMessage() {
@@ -18,9 +18,9 @@ public class BibliotecaApp {
         return welcomeMessage;
     }
 
-    public static void printTitles(List<String> titles) {
-        for (String title : titles) {
-            System.out.println(title);
+    public static void printBooksInfo(List<String> booksInfo) {
+        for (String bookInfo : booksInfo) {
+            System.out.println(bookInfo);
         }
     }
 }

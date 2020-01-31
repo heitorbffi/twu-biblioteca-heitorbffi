@@ -16,12 +16,13 @@ public class BookCatalogue {
         this.books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar"));
     }
 
-    public List<String> listTitles() {
-        List<String> titles = new ArrayList<>();
+    public List<String> listBooksInfo() {
+        List<String> booksInfo = new ArrayList<>();
         for (Book book : this.books) {
-            titles.add(book.getTitle());
+            String bookInfo = String.format("%-30.30s %-30.30s %-30.30s", book.getTitle(), book.getAuthor(), book.getPublicationYear());
+            booksInfo.add(bookInfo);
         }
 
-        return titles;
+        return booksInfo;
     }
 }

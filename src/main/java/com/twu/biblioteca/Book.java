@@ -19,6 +19,14 @@ public class Book {
         return title;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public Year getPublicationYear() {
+        return publicationYear;
+    }
+
     public void rent() {
         available = false;
     }
