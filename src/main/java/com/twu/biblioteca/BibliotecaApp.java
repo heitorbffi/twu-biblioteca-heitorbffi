@@ -1,6 +1,7 @@
 package com.twu.biblioteca;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class BibliotecaApp {
 
@@ -9,7 +10,33 @@ public class BibliotecaApp {
         BookCatalogue bookCatalogue = new BookCatalogue();
         Menu menu = new Menu(bookCatalogue);
 
-        printBooksInfo(menu.processRequest("list"));
+        Scanner scanner = new Scanner(System.in);
+
+        Boolean askForInput = true;
+        while (askForInput) {
+            showMenu(menu);
+            String command = scanner.next();
+            askForInput = processCommand(menu, command);
+        }
+    }
+
+    private static void showMenu(Menu menu) {
+        System.out.println("Choose an option from the menu below, by typing it:");
+        for (String option : menu.getMenuOptions()) {
+            System.out.println(option);
+        }
+    }
+
+    private static Boolean processCommand(Menu menu, String command) {
+        command = command.toLowerCase();
+        if (command.equals("quit")) {
+            System.out.println("Thanks for using the library, have a worthwhile day.");
+            return false;
+        }
+
+        printBooksInfo(menu.processRequest(command));
+
+        return true;
     }
 
     public static String createWelcomeMessage() {

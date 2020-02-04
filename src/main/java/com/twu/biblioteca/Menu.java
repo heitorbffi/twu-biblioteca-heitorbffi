@@ -20,7 +20,6 @@ public class Menu {
     }
 
     public List<String> processRequest(String request) {
-        request = request.toLowerCase();
         switch(request) {
             case "list":
                 return bookCatalogue.listBooksInfo();
