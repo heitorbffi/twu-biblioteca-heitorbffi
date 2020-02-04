@@ -7,9 +7,9 @@ public class BibliotecaApp {
     public static void main(String[] args) {
         System.out.println(createWelcomeMessage());
         BookCatalogue bookCatalogue = new BookCatalogue();
-        bookCatalogue.generateBooks();
+        Menu menu = new Menu(bookCatalogue);
 
-        printBooksInfo(bookCatalogue.listBooksInfo());
+        printBooksInfo(menu.processRequest("list"));
     }
 
     public static String createWelcomeMessage() {
