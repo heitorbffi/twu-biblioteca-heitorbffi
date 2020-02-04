@@ -8,33 +8,33 @@ public class BibliotecaApp {
     public static void main(String[] args) {
         System.out.println(createWelcomeMessage());
         BookCatalogue bookCatalogue = new BookCatalogue();
-        Menu menu = new Menu(bookCatalogue);
+        Librarian librarian = new Librarian(bookCatalogue, new InputAsker());
 
         Scanner scanner = new Scanner(System.in);
 
         Boolean askForInput = true;
         while (askForInput) {
-            showMenu(menu);
+            showMenu(librarian);
             String command = scanner.next();
-            askForInput = processCommand(menu, command);
+            askForInput = processCommand(librarian, command);
         }
     }
 
-    private static void showMenu(Menu menu) {
+    private static void showMenu(Librarian librarian) {
         System.out.println("Choose an option from the menu below, by typing it:");
-        for (String option : menu.getMenuOptions()) {
+        for (String option : librarian.getMenuOptions()) {
             System.out.println(option);
         }
     }
 
-    private static Boolean processCommand(Menu menu, String command) {
+    private static Boolean processCommand(Librarian librarian, String command) {
         command = command.toLowerCase();
         if (command.equals("quit")) {
             System.out.println("Thanks for using the library, have a worthwhile day.");
             return false;
         }
 
-        printBooksInfo(menu.processRequest(command));
+        printBooksInfo(librarian.processRequest(command));
 
         return true;
     }

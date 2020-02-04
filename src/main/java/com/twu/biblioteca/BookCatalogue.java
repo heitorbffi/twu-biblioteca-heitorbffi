@@ -17,13 +17,26 @@ public class BookCatalogue {
         books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar"));
     }
 
-    public List<String> listBooksInfo() {
+    public static List<String> listAvailableBooksInfo() {
         List<String> booksInfo = new ArrayList<>();
-        for (Book book : this.books) {
-            String bookInfo = String.format("%-30.30s %-30.30s %-30.30s", book.getTitle(), book.getAuthor(), book.getPublicationYear());
-            booksInfo.add(bookInfo);
+
+        for (Book book : books) {
+            if (book.isAvailable()) {
+                String bookInfo = String.format("%-30.30s %-30.30s %-30.30s", book.getTitle(), book.getAuthor(), book.getPublicationYear());
+                booksInfo.add(bookInfo);
+            }
         }
 
         return booksInfo;
+    }
+
+    public static void rentBook(String searchedBookTitle) {
+        for (Book book : books) {
+            if (book.getTitle().equals(searchedBookTitle)) {
+                book.rent();
+
+                return;
+            }
+        }
     }
 }

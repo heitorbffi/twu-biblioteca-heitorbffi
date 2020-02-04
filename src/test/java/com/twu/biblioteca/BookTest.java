@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 public class BookTest {
 
     @Test
-    public void changesAvailableStatusToRented() {
+    public void changes_available_status_to_rented() {
         Book book = new Book("BookName", Year.of(2020), "Author");
         assertTrue(book.isAvailable());
 
