@@ -7,17 +7,16 @@ import java.util.List;
 import java.util.Set;
 
 public class BookCatalogue {
-    private static Set<Book> books;
+    private Set<Book> books = new HashSet<>();
 
-    static {
-        books = new HashSet<>();
+    public BookCatalogue() {
         books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding"));
         books.add(new Book("Your Cat Hates You", Year.of(2018), "Cosmo Kramer"));
         books.add(new Book("Evolutionary Psychology", Year.of(1989), "David Buss"));
         books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar"));
     }
 
-    public static List<String> listAvailableBooksInfo() {
+    public List<String> listAvailableBooksInfo() {
         List<String> booksInfo = new ArrayList<>();
 
         for (Book book : books) {
@@ -30,13 +29,15 @@ public class BookCatalogue {
         return booksInfo;
     }
 
-    public static void rentBook(String searchedBookTitle) {
+    public boolean successfullyRentBook(String searchedBookTitle) {
         for (Book book : books) {
-            if (book.getTitle().equals(searchedBookTitle)) {
+            if (book.getTitle().equals(searchedBookTitle) && book.isAvailable()) {
                 book.rent();
 
-                return;
+                return true;
             }
         }
+
+        return false;
     }
 }

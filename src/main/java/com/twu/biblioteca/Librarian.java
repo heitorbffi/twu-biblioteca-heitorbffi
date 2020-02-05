@@ -29,11 +29,15 @@ public class Librarian {
                 return bookCatalogue.listAvailableBooksInfo();
             case "rent":
                 String bookName = inputAsker.askForName();
-                bookCatalogue.rentBook(bookName);
-
                 List<String> rentedBookInfo = new ArrayList<>();
-                rentedBookInfo.add("You have rented the book " + bookName);
-                rentedBookInfo.add("Thank you! Enjoy the book");
+
+                if (bookCatalogue.successfullyRentBook(bookName)) {
+                    rentedBookInfo = new ArrayList<>();
+                    rentedBookInfo.add("You have rented the book " + bookName);
+                    rentedBookInfo.add("Thank you! Enjoy the book");
+                } else {
+                    rentedBookInfo.add("Sorry, that book is unavailable");
+                }
 
                 return rentedBookInfo;
             default:
