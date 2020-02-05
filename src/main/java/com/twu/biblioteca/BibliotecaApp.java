@@ -14,27 +14,27 @@ public class BibliotecaApp {
 
         Boolean askForInput = true;
         while (askForInput) {
-            showMenu(librarian);
+            showMenu();
             String command = scanner.next();
             askForInput = processCommand(librarian, command);
         }
     }
 
-    private static void showMenu(Librarian librarian) {
+    private static void showMenu() {
         System.out.println("Choose an option from the menu below, by typing it:");
-        for (String option : librarian.getMenuOptions()) {
+        for (MenuOptions option : MenuOptions.values()) {
             System.out.println(option);
         }
     }
 
-    private static Boolean processCommand(Librarian librarian, String command) {
+    private static boolean processCommand(Librarian librarian, String command) {
         command = command.toLowerCase();
         if (command.equals("quit")) {
             System.out.println("Thanks for using the library, have a worthwhile day.");
             return false;
         }
 
-        printBooksInfo(librarian.processRequest(command));
+        printBooksInfo(librarian.processRequest(MenuOptions.valueOf(command.toUpperCase())));
 
         return true;
     }

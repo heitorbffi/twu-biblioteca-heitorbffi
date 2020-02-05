@@ -29,6 +29,14 @@ public class BookCatalogue {
         return booksInfo;
     }
 
+    public Book findByName(String name) {
+        return books.stream()
+                .filter(x-> x.getTitle().equalsIgnoreCase(name))
+                .findFirst()
+                .map(x-> new Book(x.getTitle(), x.getPublicationYear(), x.getAuthor()))
+                .orElse(null);
+    }
+
     public boolean successfullyRentBook(String searchedBookTitle) {
         for (Book book : books) {
             if (book.getTitle().equals(searchedBookTitle) && book.isAvailable()) {
@@ -39,5 +47,13 @@ public class BookCatalogue {
         }
 
         return false;
+    }
+
+    public void rent(Book newBook) {
+        for (Book book : books) {
+            if (book.getTitle().equals(newBook.getTitle())) {
+                book.rent();
+            }
+        }
     }
 }

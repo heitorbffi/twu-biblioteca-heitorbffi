@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.twu.biblioteca.BookCatalogueTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2020-02-05T01:50:47" hostname="LAHeitors-MacBook-Pro.local" time="0.011">
+<testsuite name="com.twu.biblioteca.BookCatalogueTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2020-02-05T21:12:32" hostname="LAHeitors-MacBook-Pro.local" time="0.002">
   <properties/>
-  <testcase name="is_not_possible_to_rent_book_twice" classname="com.twu.biblioteca.BookCatalogueTest" time="0.01"/>
-  <testcase name="should_return_a_list_of_titles" classname="com.twu.biblioteca.BookCatalogueTest" time="0.0"/>
+  <testcase name="is_not_possible_to_rent_book_twice" classname="com.twu.biblioteca.BookCatalogueTest" time="0.0"/>
+  <testcase name="shouldReturnBookByName" classname="com.twu.biblioteca.BookCatalogueTest" time="0.0"/>
+  <testcase name="should_return_a_list_of_titles" classname="com.twu.biblioteca.BookCatalogueTest" time="0.001"/>
   <testcase name="is_not_possible_to_rent_nonexistent_book" classname="com.twu.biblioteca.BookCatalogueTest" time="0.0"/>
+  <testcase name="xxx" classname="com.twu.biblioteca.BookCatalogueTest" time="0.0"/>
+  <testcase name="shouldReturnNullWhenBookDoesNotExist" classname="com.twu.biblioteca.BookCatalogueTest" time="0.0"/>
   <testcase name="should_reduce_the_list_of_titles_if_book_is_available" classname="com.twu.biblioteca.BookCatalogueTest" time="0.001"/>
   <testcase name="is_possible_to_rent_book" classname="com.twu.biblioteca.BookCatalogueTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>

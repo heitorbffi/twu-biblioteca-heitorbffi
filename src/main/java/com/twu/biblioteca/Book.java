@@ -1,12 +1,13 @@
 package com.twu.biblioteca;
 
 import java.time.Year;
+import java.util.Objects;
 
 public class Book {
-    String title;
-    Year publicationYear;
-    String author;
-    boolean available;
+    private String title;
+    private Year publicationYear;
+    private String author;
+    private boolean available;
 
     public Book (String title, Year publicationYear, String author) {
         this.title = title;
@@ -34,4 +35,31 @@ public class Book {
     public boolean isAvailable() {
         return available;
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "title='" + title + '\'' +
+                ", publicationYear=" + publicationYear +
+                ", author='" + author + '\'' +
+                ", available=" + available +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return available == book.available &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(publicationYear, book.publicationYear) &&
+                Objects.equals(author, book.author);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, publicationYear, author, available);
+    }
+
 }

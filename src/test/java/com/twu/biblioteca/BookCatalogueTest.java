@@ -1,6 +1,8 @@
 package com.twu.biblioteca;
 
 import org.junit.Test;
+
+import java.time.Year;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -19,8 +21,11 @@ public class BookCatalogueTest {
     public void should_reduce_the_list_of_titles_if_book_is_available() {
         BookCatalogue bookCatalogue = new BookCatalogue();
 
-        bookCatalogue.successfullyRentBook("Zen Meditation");
         List<String> listOfTitles = bookCatalogue.listAvailableBooksInfo();
+        assertEquals(4, listOfTitles.size());
+
+        bookCatalogue.successfullyRentBook("Zen Meditation");
+        listOfTitles = bookCatalogue.listAvailableBooksInfo();
 
         assertEquals(3, listOfTitles.size());
 
@@ -61,5 +66,28 @@ public class BookCatalogueTest {
         Boolean rentable = bookCatalogue.successfullyRentBook("Zen Meditation");
 
         assertFalse(rentable);
+    }
+
+    @Test
+    public void shouldReturnBookByName() {
+        BookCatalogue bookCatalogue = new BookCatalogue();
+        Book zenMeditation = bookCatalogue.findByName("Zen Meditation");
+        Book expectedBook = new Book("Zen Meditation", Year.of(1965), "Yaohui Ding");
+        assertEquals(zenMeditation, expectedBook);
+    }
+
+    @Test
+    public void shouldReturnNullWhenBookDoesNotExist() {
+        BookCatalogue bookCatalogue = new BookCatalogue();
+        Book actualBook = bookCatalogue.findByName("Invalid name");
+        assertNull(actualBook);
+    }
+
+    @Test
+    public void xxx() {
+        BookCatalogue bookCatalogue = new BookCatalogue();
+        Book actualBook = bookCatalogue.findByName("zen meditation");
+        Book expectedBook = new Book("Zen Meditation", Year.of(1965), "Yaohui Ding");
+        assertEquals(expectedBook, actualBook);
     }
 }

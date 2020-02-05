@@ -4,13 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Librarian {
-    public static List<String> menuOptions;
-    static {
-        menuOptions = new ArrayList<>();
-        menuOptions.add("List");
-        menuOptions.add("Rent");
-        menuOptions.add("Quit");
-    }
     private BookCatalogue bookCatalogue;
     private final InputAsker inputAsker;
 
@@ -19,32 +12,36 @@ public class Librarian {
         this.inputAsker = inputAsker;
     }
 
-    public static List<String> getMenuOptions() {
-        return menuOptions;
-    }
-
-    public List<String> processRequest(String request) {
+    public List<String> processRequest(MenuOptions request) {
         switch(request) {
-            case "list":
+            case LIST:
                 return bookCatalogue.listAvailableBooksInfo();
-            case "rent":
-                String bookName = inputAsker.askForName();
-                List<String> rentedBookInfo = new ArrayList<>();
-
-                if (bookCatalogue.successfullyRentBook(bookName)) {
-                    rentedBookInfo = new ArrayList<>();
-                    rentedBookInfo.add("You have rented the book " + bookName);
-                    rentedBookInfo.add("Thank you! Enjoy the book");
-                } else {
-                    rentedBookInfo.add("Sorry, that book is unavailable");
-                }
-
-                return rentedBookInfo;
+            case RENT:
+                return tryToRentBook();
             default:
                 List<String> invalidOptionInfo = new ArrayList<>();
                 invalidOptionInfo.add("Please select a valid option!");
 
                 return invalidOptionInfo;
         }
+    }
+
+    private List<String> tryToRentBook() {
+        String bookName = inputAsker.askForName();
+        List<String> rentedBookInfo = new ArrayList<>();
+
+        Book book = bookCatalogue.findByName(bookName);
+
+        if (book == null) {
+            rentedBookInfo.add("Sorry, that book is not in our catalogue.");
+        } else if (!book.isAvailable()) {
+            rentedBookInfo.add("Sorry, that book is already checked out. Check back soon.");
+        } else {
+            bookCatalogue.rent(book);
+            rentedBookInfo.add("You have rented the book " + bookName);
+            rentedBookInfo.add("Thank you! Enjoy the book");
+        }
+
+        return rentedBookInfo;
     }
 }
