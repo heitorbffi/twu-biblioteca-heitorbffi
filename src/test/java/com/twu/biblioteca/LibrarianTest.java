@@ -47,4 +47,22 @@ public class LibrarianTest {
 
         assertEquals(3, listOfTitles.size());
     }
+
+    @Test
+    public void should_put_returned_book_back_on_list() {
+        InputAsker inputAsker = mock(InputAsker.class);
+
+        when(inputAsker.askForName()).thenReturn("Zen Meditation");
+
+        Librarian librarian = new Librarian(new BookCatalogue(), inputAsker);
+
+        librarian.processRequest(MenuOptions.RENT);
+        List<String> listOfTitles = librarian.processRequest(MenuOptions.LIST);
+        assertEquals(3, listOfTitles.size());
+
+        librarian.processRequest(MenuOptions.RETURN);
+        listOfTitles = librarian.processRequest(MenuOptions.LIST);
+
+        assertEquals(4, listOfTitles.size());
+    }
 }

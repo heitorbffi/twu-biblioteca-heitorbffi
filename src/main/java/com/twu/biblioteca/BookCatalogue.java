@@ -10,10 +10,10 @@ public class BookCatalogue {
     private Set<Book> books = new HashSet<>();
 
     public BookCatalogue() {
-        books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding"));
-        books.add(new Book("Your Cat Hates You", Year.of(2018), "Cosmo Kramer"));
-        books.add(new Book("Evolutionary Psychology", Year.of(1989), "David Buss"));
-        books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar"));
+        books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", true));
+        books.add(new Book("Your Cat Hates You", Year.of(2018), "Cosmo Kramer", true));
+        books.add(new Book("Evolutionary Psychology", Year.of(1989), "David Buss", true));
+        books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar", true));
     }
 
     public List<String> listAvailableBooksInfo() {
@@ -29,30 +29,26 @@ public class BookCatalogue {
         return booksInfo;
     }
 
-    public Book findByName(String name) {
+    public Book findByTitle(String title) {
         return books.stream()
-                .filter(x-> x.getTitle().equalsIgnoreCase(name))
+                .filter(x-> x.getTitle().equalsIgnoreCase(title))
                 .findFirst()
-                .map(x-> new Book(x.getTitle(), x.getPublicationYear(), x.getAuthor()))
+                .map(x-> new Book(x.getTitle(), x.getPublicationYear(), x.getAuthor(), x.isAvailable()))
                 .orElse(null);
     }
 
-    public boolean successfullyRentBook(String searchedBookTitle) {
+    public void rent(Book bookToRent) {
         for (Book book : books) {
-            if (book.getTitle().equals(searchedBookTitle) && book.isAvailable()) {
+            if (book.equals(bookToRent)) {
                 book.rent();
-
-                return true;
             }
         }
-
-        return false;
     }
 
-    public void rent(Book newBook) {
+    public void giveBack(Book bookToReturn) {
         for (Book book : books) {
-            if (book.getTitle().equals(newBook.getTitle())) {
-                book.rent();
+            if (book.equals(bookToReturn)) {
+                book.giveBack();
             }
         }
     }

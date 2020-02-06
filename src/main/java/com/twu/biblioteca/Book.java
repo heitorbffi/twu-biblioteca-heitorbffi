@@ -9,11 +9,11 @@ public class Book {
     private String author;
     private boolean available;
 
-    public Book (String title, Year publicationYear, String author) {
+    public Book (String title, Year publicationYear, String author, boolean available) {
         this.title = title;
         this.publicationYear = publicationYear;
         this.author = author;
-        this.available = true;
+        this.available = available;
     }
 
     public String getTitle() {
@@ -30,6 +30,10 @@ public class Book {
 
     public void rent() {
         available = false;
+    }
+
+    public void giveBack() {
+        available = true;
     }
 
     public boolean isAvailable() {
@@ -49,8 +53,11 @@ public class Book {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
+
         if (o == null || getClass() != o.getClass()) return false;
+
         Book book = (Book) o;
+
         return available == book.available &&
                 Objects.equals(title, book.title) &&
                 Objects.equals(publicationYear, book.publicationYear) &&
@@ -61,5 +68,4 @@ public class Book {
     public int hashCode() {
         return Objects.hash(title, publicationYear, author, available);
     }
-
 }

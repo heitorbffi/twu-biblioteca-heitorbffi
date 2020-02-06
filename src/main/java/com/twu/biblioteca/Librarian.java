@@ -18,6 +18,8 @@ public class Librarian {
                 return bookCatalogue.listAvailableBooksInfo();
             case RENT:
                 return tryToRentBook();
+            case RETURN:
+                return tryToReturnBook();
             default:
                 List<String> invalidOptionInfo = new ArrayList<>();
                 invalidOptionInfo.add("Please select a valid option!");
@@ -30,7 +32,7 @@ public class Librarian {
         String bookName = inputAsker.askForName();
         List<String> rentedBookInfo = new ArrayList<>();
 
-        Book book = bookCatalogue.findByName(bookName);
+        Book book = bookCatalogue.findByTitle(bookName);
 
         if (book == null) {
             rentedBookInfo.add("Sorry, that book is not in our catalogue.");
@@ -43,5 +45,23 @@ public class Librarian {
         }
 
         return rentedBookInfo;
+    }
+
+    private List<String> tryToReturnBook() {
+        String bookName = inputAsker.askForName();
+        List<String> returnedBookInfo = new ArrayList<>();
+
+        Book book = bookCatalogue.findByTitle(bookName);
+
+        if (book == null) {
+            returnedBookInfo.add("Sorry, that book is not in our catalogue.");
+        } else if (book.isAvailable()) {
+            returnedBookInfo.add("That book is already with us.");
+        } else {
+            bookCatalogue.giveBack(book);
+            returnedBookInfo.add("Thank you for returning the book " + bookName);
+        }
+
+        return returnedBookInfo;
     }
 }

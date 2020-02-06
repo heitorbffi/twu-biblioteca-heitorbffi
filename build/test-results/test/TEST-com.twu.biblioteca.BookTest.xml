@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.twu.biblioteca.BookTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-02-05T21:12:32" hostname="LAHeitors-MacBook-Pro.local" time="0.0">
+<testsuite name="com.twu.biblioteca.BookTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2020-02-06T13:12:18" hostname="LAHeitors-MacBook-Pro.local" time="0.0">
   <properties/>
   <testcase name="changes_available_status_to_rented" classname="com.twu.biblioteca.BookTest" time="0.0"/>
+  <testcase name="changes_available_status_to_returned" classname="com.twu.biblioteca.BookTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
