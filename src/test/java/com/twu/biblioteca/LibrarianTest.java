@@ -2,6 +2,7 @@ package com.twu.biblioteca;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
+import java.time.Year;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
@@ -11,24 +12,31 @@ public class LibrarianTest {
 
     @Test
     public void should_return_a_list_of_titles() {
-        Librarian librarian = new Librarian(new BookCatalogue(), new InputAsker());
-        List<String> listOfTitles = librarian.processRequest(MenuOptions.LIST);
+        StringBuffer expectedResult = new StringBuffer();
+        expectedResult.append(String.format("%-30.30s %-30.30s %-30.30s\n", "Zen Meditation", "Yaohui Ding", "1965"));
+        expectedResult.append(String.format("%-30.30s %-30.30s %-30.30s\n", "Your Cat Hates You", "Cosmo Kramer", "2018"));
+        expectedResult.append(String.format("%-30.30s %-30.30s %-30.30s\n", "Evolutionary Psychology", "David Buss", "1989"));
+        expectedResult.append(String.format("%-30.30s %-30.30s %-30.30s\n", "Ancient History", "Iulius Caesar", "30"));
 
-        assertEquals(4, listOfTitles.size());
+        Librarian librarian = new Librarian(new BookCatalogue(), new InputAsker());
+        UserRequestResult result = librarian.processRequest(MenuOptions.LIST);
+
+        assertEquals(expectedResult.toString(), result.toString());
     }
 
     @Test
     public void should_take_book_title_for_rent_request() {
         InputAsker inputAsker = mock(InputAsker.class);
-
         when(inputAsker.askForName()).thenReturn("Zen Meditation");
 
         Librarian librarian = new Librarian(new BookCatalogue(), inputAsker);
+        UserRequestResult result = librarian.processRequest(MenuOptions.RENT);
 
-        List<String> rentRequestOutcome = librarian.processRequest(MenuOptions.RENT);
+        StringBuffer expectedResult = new StringBuffer();
+        expectedResult.append("You have rented the book Zen Meditation\n");
+        expectedResult.append("Thank you! Enjoy the book\n");
 
-        assertEquals("You have rented the book Zen Meditation", rentRequestOutcome.get(0));
-        assertEquals("Thank you! Enjoy the book", rentRequestOutcome.get(1));
+        assertEquals(expectedResult.toString(), result.toString());
     }
 
     @Test
@@ -38,14 +46,15 @@ public class LibrarianTest {
         when(inputAsker.askForName()).thenReturn("Zen Meditation");
 
         Librarian librarian = new Librarian(new BookCatalogue(), inputAsker);
-        List<String> listOfTitles = librarian.processRequest(MenuOptions.LIST);
-
-        assertEquals(4, listOfTitles.size());
-
         librarian.processRequest(MenuOptions.RENT);
-        listOfTitles = librarian.processRequest(MenuOptions.LIST);
+        UserRequestResult result = librarian.processRequest(MenuOptions.LIST);
 
-        assertEquals(3, listOfTitles.size());
+        StringBuffer expectedResult = new StringBuffer();
+        expectedResult.append(String.format("%-30.30s %-30.30s %-30.30s\n", "Your Cat Hates You", "Cosmo Kramer", "2018"));
+        expectedResult.append(String.format("%-30.30s %-30.30s %-30.30s\n", "Evolutionary Psychology", "David Buss", "1989"));
+        expectedResult.append(String.format("%-30.30s %-30.30s %-30.30s\n", "Ancient History", "Iulius Caesar", "30"));
+
+        assertEquals(expectedResult.toString(), result.toString());
     }
 
     @Test
@@ -57,12 +66,16 @@ public class LibrarianTest {
         Librarian librarian = new Librarian(new BookCatalogue(), inputAsker);
 
         librarian.processRequest(MenuOptions.RENT);
-        List<String> listOfTitles = librarian.processRequest(MenuOptions.LIST);
-        assertEquals(3, listOfTitles.size());
-
         librarian.processRequest(MenuOptions.RETURN);
-        listOfTitles = librarian.processRequest(MenuOptions.LIST);
 
-        assertEquals(4, listOfTitles.size());
+        StringBuffer expectedResult = new StringBuffer();
+        expectedResult.append(String.format("%-30.30s %-30.30s %-30.30s\n", "Zen Meditation", "Yaohui Ding", "1965"));
+        expectedResult.append(String.format("%-30.30s %-30.30s %-30.30s\n", "Your Cat Hates You", "Cosmo Kramer", "2018"));
+        expectedResult.append(String.format("%-30.30s %-30.30s %-30.30s\n", "Evolutionary Psychology", "David Buss", "1989"));
+        expectedResult.append(String.format("%-30.30s %-30.30s %-30.30s\n", "Ancient History", "Iulius Caesar", "30"));
+
+        UserRequestResult result = librarian.processRequest(MenuOptions.LIST);
+
+        assertEquals(expectedResult.toString(), result.toString());
     }
 }

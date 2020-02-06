@@ -39,6 +39,8 @@ public class BookCatalogueTest {
         assertEquals(4, listOfTitles.size());
 
         bookCatalogue.rent(book);
+
+        book = new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", false);
         bookCatalogue.rent(book);
         listOfTitles = bookCatalogue.listAvailableBooksInfo();
 
@@ -62,7 +64,7 @@ public class BookCatalogueTest {
     @Test
     public void should_not_increase_the_list_of_titles_if_book_returned_is_not_in_catalogue() {
         BookCatalogue bookCatalogue = new BookCatalogue();
-        Book book = new Book("Western Meditation", Year.of(1965), "Yaohui Ding", true);
+        Book book = new Book("Western Meditation", Year.of(1965), "Yaohui Ding", false);
 
         List<String> listOfTitles = bookCatalogue.listAvailableBooksInfo();
         assertEquals(4, listOfTitles.size());
@@ -81,6 +83,8 @@ public class BookCatalogueTest {
 
         List<String> listOfTitles = bookCatalogue.listAvailableBooksInfo();
         assertEquals(3, listOfTitles.size());
+
+        book = new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", false);
 
         bookCatalogue.giveBack(book);
         bookCatalogue.giveBack(book);

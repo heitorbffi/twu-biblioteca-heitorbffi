@@ -34,7 +34,7 @@ public class BibliotecaApp {
             return false;
         }
 
-        printBooksInfo(librarian.processRequest(MenuOptions.valueOf(command.toUpperCase())));
+        System.out.println(librarian.processRequest(MenuOptions.valueOf(command.toUpperCase())));
 
         return true;
     }
@@ -43,11 +43,5 @@ public class BibliotecaApp {
         String welcomeMessage = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
 
         return welcomeMessage;
-    }
-
-    public static void printBooksInfo(List<String> booksInfo) {
-        for (String bookInfo : booksInfo) {
-            System.out.println(bookInfo);
-        }
     }
 }

@@ -1,13 +1,10 @@
 package com.twu.biblioteca;
 
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class BookCatalogue {
-    private Set<Book> books = new HashSet<>();
+    private Set<Book> books = new LinkedHashSet<>();
 
     public BookCatalogue() {
         books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", true));

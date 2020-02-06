@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.twu.biblioteca.LibrarianTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-02-06T13:12:18" hostname="LAHeitors-MacBook-Pro.local" time="0.237">
+<testsuite name="com.twu.biblioteca.LibrarianTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2020-02-06T15:50:05" hostname="LAHeitors-MacBook-Pro.local" time="0.263">
   <properties/>
-  <testcase name="should_return_a_list_of_titles" classname="com.twu.biblioteca.LibrarianTest" time="0.001"/>
-  <testcase name="should_take_rented_book_off_list" classname="com.twu.biblioteca.LibrarianTest" time="0.235"/>
-  <testcase name="should_take_book_title_for_rent_request" classname="com.twu.biblioteca.LibrarianTest" time="0.001"/>
+  <testcase name="should_put_returned_book_back_on_list" classname="com.twu.biblioteca.LibrarianTest" time="0.262"/>
+  <testcase name="should_return_a_list_of_titles" classname="com.twu.biblioteca.LibrarianTest" time="0.0"/>
+  <testcase name="should_take_rented_book_off_list" classname="com.twu.biblioteca.LibrarianTest" time="0.001"/>
+  <testcase name="should_take_book_title_for_rent_request" classname="com.twu.biblioteca.LibrarianTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

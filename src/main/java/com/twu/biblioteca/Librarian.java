@@ -12,56 +12,67 @@ public class Librarian {
         this.inputAsker = inputAsker;
     }
 
-    public List<String> processRequest(MenuOptions request) {
+    public UserRequestResult processRequest(MenuOptions request) {
         switch(request) {
             case LIST:
-                return bookCatalogue.listAvailableBooksInfo();
+                return listBooks();
             case RENT:
                 return tryToRentBook();
             case RETURN:
                 return tryToReturnBook();
             default:
-                List<String> invalidOptionInfo = new ArrayList<>();
-                invalidOptionInfo.add("Please select a valid option!");
+                UserRequestResult result = new UserRequestResult();
+                result.add("Please select a valid option!");
 
-                return invalidOptionInfo;
+                return result;
         }
     }
 
-    private List<String> tryToRentBook() {
+    private UserRequestResult listBooks() {
+        UserRequestResult result = new UserRequestResult();
+        List<String> booksInfoList = bookCatalogue.listAvailableBooksInfo();
+
+        for (String bookInfo : booksInfoList) {
+            result.add(bookInfo);
+        }
+
+        return result;
+    }
+
+    private UserRequestResult tryToRentBook() {
+        UserRequestResult result = new UserRequestResult();
         String bookName = inputAsker.askForName();
-        List<String> rentedBookInfo = new ArrayList<>();
 
         Book book = bookCatalogue.findByTitle(bookName);
 
         if (book == null) {
-            rentedBookInfo.add("Sorry, that book is not in our catalogue.");
+            result.add("Sorry, that book is not in our catalogue.");
         } else if (!book.isAvailable()) {
-            rentedBookInfo.add("Sorry, that book is already checked out. Check back soon.");
+            result.add("Sorry, that book is already checked out. Check back soon.");
         } else {
             bookCatalogue.rent(book);
-            rentedBookInfo.add("You have rented the book " + bookName);
-            rentedBookInfo.add("Thank you! Enjoy the book");
+            result.add("You have rented the book " + bookName);
+            result.add("Thank you! Enjoy the book");
         }
 
-        return rentedBookInfo;
+        return result;
     }
 
-    private List<String> tryToReturnBook() {
+    private UserRequestResult tryToReturnBook() {
         String bookName = inputAsker.askForName();
-        List<String> returnedBookInfo = new ArrayList<>();
+        UserRequestResult result = new UserRequestResult();
 
         Book book = bookCatalogue.findByTitle(bookName);
 
         if (book == null) {
-            returnedBookInfo.add("Sorry, that book is not in our catalogue.");
+            result.add("Sorry, that book is not in our catalogue.");
         } else if (book.isAvailable()) {
-            returnedBookInfo.add("That book is already with us.");
+            result.add("That book is already with us.");
         } else {
             bookCatalogue.giveBack(book);
-            returnedBookInfo.add("Thank you for returning the book " + bookName);
+            result.add("Thank you for returning the book " + bookName);
         }
 
-        return returnedBookInfo;
+        return result;
     }
 }
