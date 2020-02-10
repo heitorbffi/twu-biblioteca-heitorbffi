@@ -3,51 +3,21 @@ package com.twu.biblioteca;
 import java.time.Year;
 import java.util.Objects;
 
-public class Book {
-    private String title;
-    private Year publicationYear;
+public class Book extends Borrowable {
     private String author;
-    private boolean available;
 
     public Book (String title, Year publicationYear, String author, boolean available) {
-        this.title = title;
-        this.publicationYear = publicationYear;
+        super(title, publicationYear, available);
         this.author = author;
-        this.available = available;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public String getAuthor() {
         return author;
     }
 
-    public Year getPublicationYear() {
-        return publicationYear;
-    }
-
-    public void rent() {
-        available = false;
-    }
-
-    public void giveBack() {
-        available = true;
-    }
-
-    public boolean isAvailable() {
-        return available;
-    }
-
     @Override
     public String toString() {
-        return "Book{" +
-                "title='" + title + '\'' +
-                ", publicationYear=" + publicationYear +
-                ", author='" + author + '\'' +
-                ", available=" + available +
-                '}';
+        return String.format("%-30.30s %-30.30s %-30.30s", super.getTitle(), author, super.getPublicationYear());
     }
 
     @Override
@@ -58,14 +28,14 @@ public class Book {
 
         Book book = (Book) o;
 
-        return available == book.available &&
-                Objects.equals(title, book.title) &&
-                Objects.equals(publicationYear, book.publicationYear) &&
+        return super.isAvailable() == book.isAvailable() &&
+                Objects.equals(super.getTitle(), book.getTitle()) &&
+                Objects.equals(super.getPublicationYear(), book.getPublicationYear()) &&
                 Objects.equals(author, book.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, publicationYear, author, available);
+        return Objects.hash(super.getTitle(), super.getPublicationYear(), author, super.isAvailable());
     }
 }

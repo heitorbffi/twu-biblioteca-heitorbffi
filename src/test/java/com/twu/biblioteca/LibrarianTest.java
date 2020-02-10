@@ -1,9 +1,11 @@
 package com.twu.biblioteca;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 
 import java.time.Year;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -18,7 +20,14 @@ public class LibrarianTest {
         expectedResult.append(String.format("%-30.30s %-30.30s %-30.30s\n", "Evolutionary Psychology", "David Buss", "1989"));
         expectedResult.append(String.format("%-30.30s %-30.30s %-30.30s\n", "Ancient History", "Iulius Caesar", "30"));
 
-        Librarian librarian = new Librarian(new BookCatalogue(), new InputAsker());
+        Set<Book> books = new LinkedHashSet<>();
+
+        books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", true));
+        books.add(new Book("Your Cat Hates You", Year.of(2018), "Cosmo Kramer", true));
+        books.add(new Book("Evolutionary Psychology", Year.of(1989), "David Buss", true));
+        books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar", true));
+
+        Librarian librarian = new Librarian(new Catalogue(books), new InputAsker());
         UserRequestResult result = librarian.processRequest(MenuOptions.LIST);
 
         assertEquals(expectedResult.toString(), result.toString());
@@ -29,7 +38,13 @@ public class LibrarianTest {
         InputAsker inputAsker = mock(InputAsker.class);
         when(inputAsker.askForName()).thenReturn("Zen Meditation");
 
-        Librarian librarian = new Librarian(new BookCatalogue(), inputAsker);
+        Set<Book> books = new LinkedHashSet<>();
+
+        books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", true));
+        books.add(new Book("Your Cat Hates You", Year.of(2018), "Cosmo Kramer", true));
+        books.add(new Book("Evolutionary Psychology", Year.of(1989), "David Buss", true));
+        books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar", true));
+        Librarian librarian = new Librarian(new Catalogue(books), inputAsker);
         UserRequestResult result = librarian.processRequest(MenuOptions.RENT);
 
         StringBuffer expectedResult = new StringBuffer();
@@ -45,7 +60,13 @@ public class LibrarianTest {
 
         when(inputAsker.askForName()).thenReturn("Zen Meditation");
 
-        Librarian librarian = new Librarian(new BookCatalogue(), inputAsker);
+        Set<Book> books = new LinkedHashSet<>();
+
+        books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", true));
+        books.add(new Book("Your Cat Hates You", Year.of(2018), "Cosmo Kramer", true));
+        books.add(new Book("Evolutionary Psychology", Year.of(1989), "David Buss", true));
+        books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar", true));
+        Librarian librarian = new Librarian(new Catalogue(books), inputAsker);
         librarian.processRequest(MenuOptions.RENT);
         UserRequestResult result = librarian.processRequest(MenuOptions.LIST);
 
@@ -63,7 +84,13 @@ public class LibrarianTest {
 
         when(inputAsker.askForName()).thenReturn("Zen Meditation");
 
-        Librarian librarian = new Librarian(new BookCatalogue(), inputAsker);
+        Set<Book> books = new LinkedHashSet<>();
+
+        books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", true));
+        books.add(new Book("Your Cat Hates You", Year.of(2018), "Cosmo Kramer", true));
+        books.add(new Book("Evolutionary Psychology", Year.of(1989), "David Buss", true));
+        books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar", true));
+        Librarian librarian = new Librarian(new Catalogue(books), inputAsker);
 
         librarian.processRequest(MenuOptions.RENT);
         librarian.processRequest(MenuOptions.RETURN);

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.twu.biblioteca.CatalogueTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2020-02-10T02:43:45" hostname="LAHeitors-MacBook-Pro.local" time="0.002">
+  <properties/>
+  <testcase name="should_list_books" classname="com.twu.biblioteca.CatalogueTest" time="0.001"/>
+  <testcase name="should_return_movie" classname="com.twu.biblioteca.CatalogueTest" time="0.0"/>
+  <testcase name="should_list_movies" classname="com.twu.biblioteca.CatalogueTest" time="0.0"/>
+  <testcase name="should_rent_movie" classname="com.twu.biblioteca.CatalogueTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

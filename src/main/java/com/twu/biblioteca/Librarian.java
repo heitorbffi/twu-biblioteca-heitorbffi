@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Librarian {
-    private BookCatalogue bookCatalogue;
+    private Catalogue catalogue;
     private final InputAsker inputAsker;
 
-    public Librarian(BookCatalogue bookCatalogue, InputAsker inputAsker) {
-        this.bookCatalogue = bookCatalogue;
+    public Librarian(Catalogue catalogue, InputAsker inputAsker) {
+        this.catalogue = catalogue;
         this.inputAsker = inputAsker;
     }
 
@@ -30,7 +30,7 @@ public class Librarian {
 
     private UserRequestResult listBooks() {
         UserRequestResult result = new UserRequestResult();
-        List<String> booksInfoList = bookCatalogue.listAvailableBooksInfo();
+        List<String> booksInfoList = catalogue.listAvailableItemsInfo();
 
         for (String bookInfo : booksInfoList) {
             result.add(bookInfo);
@@ -41,17 +41,17 @@ public class Librarian {
 
     private UserRequestResult tryToRentBook() {
         UserRequestResult result = new UserRequestResult();
-        String bookName = inputAsker.askForName();
+        String title = inputAsker.askForName();
 
-        Book book = bookCatalogue.findByTitle(bookName);
+        Borrowable book = catalogue.findByTitle(title);
 
         if (book == null) {
             result.add("Sorry, that book is not in our catalogue.");
         } else if (!book.isAvailable()) {
             result.add("Sorry, that book is already checked out. Check back soon.");
         } else {
-            bookCatalogue.rent(book);
-            result.add("You have rented the book " + bookName);
+            catalogue.rent(book);
+            result.add("You have rented the book " + title);
             result.add("Thank you! Enjoy the book");
         }
 
@@ -62,14 +62,14 @@ public class Librarian {
         String bookName = inputAsker.askForName();
         UserRequestResult result = new UserRequestResult();
 
-        Book book = bookCatalogue.findByTitle(bookName);
+        Borrowable book = catalogue.findByTitle(bookName);
 
         if (book == null) {
             result.add("Sorry, that book is not in our catalogue.");
         } else if (book.isAvailable()) {
             result.add("That book is already with us.");
         } else {
-            bookCatalogue.giveBack(book);
+            catalogue.giveBack(book);
             result.add("Thank you for returning the book " + bookName);
         }
 
