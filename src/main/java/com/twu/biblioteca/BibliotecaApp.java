@@ -9,8 +9,9 @@ public class BibliotecaApp {
 
     public static void main(String[] args) {
         System.out.println(createWelcomeMessage());
-        Catalogue bookCatalogue = createBookCatalogue();
-        Librarian librarian = new Librarian(bookCatalogue, new InputAsker());
+        Catalogue<Book> bookCatalogue = createBookCatalogue();
+        Catalogue<Movie> movieCatalogue = createMovieCatalogue();
+        Librarian librarian = new Librarian(bookCatalogue, movieCatalogue, new InputAsker());
 
         Scanner scanner = new Scanner(System.in);
 
@@ -22,7 +23,7 @@ public class BibliotecaApp {
         }
     }
 
-    private static Catalogue createBookCatalogue() {
+    private static Catalogue<Book> createBookCatalogue() {
         Set<Book> books = new LinkedHashSet<>();
 
         books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", true));
@@ -30,7 +31,17 @@ public class BibliotecaApp {
         books.add(new Book("Evolutionary Psychology", Year.of(1989), "David Buss", true));
         books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar", true));
 
-        return new Catalogue<Book>(books);
+        return new Catalogue<>(books);
+    }
+
+    private static Catalogue<Movie> createMovieCatalogue() {
+        Set<Movie> movies = new LinkedHashSet<>();
+
+        movies.add(new Movie("Bananas", Year.of(1970), "Woody Allen", true, 8));
+        movies.add(new Movie("7 Samurai", Year.of(1957), "Akira Kurosawa", true, 9));
+        movies.add(new Movie("My Home Movie", Year.of(1994), "Dad", true));
+
+        return new Catalogue<>(movies);
     }
 
     private static void showMenu() {
@@ -42,8 +53,9 @@ public class BibliotecaApp {
 
     private static boolean processCommand(Librarian librarian, String command) {
         command = command.toLowerCase();
-        if (command.equals("quit")) {
+        if (MenuOptions.valueOf(command.toUpperCase()) == MenuOptions.QUIT) {
             System.out.println("Thanks for using the library, have a worthwhile day.");
+
             return false;
         }
 

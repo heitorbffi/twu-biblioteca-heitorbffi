@@ -1,25 +1,25 @@
 package com.twu.biblioteca;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Librarian {
-    private Catalogue catalogue;
+    private Catalogue bookCatalogue;
+    private Catalogue movieCatalogue;
     private final InputAsker inputAsker;
 
-    public Librarian(Catalogue catalogue, InputAsker inputAsker) {
-        this.catalogue = catalogue;
+    public Librarian(Catalogue bookCatalogue, Catalogue movieCatalogue, InputAsker inputAsker) {
+        this.bookCatalogue = bookCatalogue;
+        this.movieCatalogue = movieCatalogue;
         this.inputAsker = inputAsker;
     }
 
     public UserRequestResult processRequest(MenuOptions request) {
         switch(request) {
             case LIST:
-                return listBooks();
+                return listItems();
             case RENT:
-                return tryToRentBook();
+                return tryToRent();
             case RETURN:
-                return tryToReturnBook();
+                return tryToReturn();
             default:
                 UserRequestResult result = new UserRequestResult();
                 result.add("Please select a valid option!");
@@ -28,51 +28,68 @@ public class Librarian {
         }
     }
 
-    private UserRequestResult listBooks() {
+    private UserRequestResult listItems() {
         UserRequestResult result = new UserRequestResult();
-        List<String> booksInfoList = catalogue.listAvailableItemsInfo();
+        List<String> infoList = null;
+        CatalogueOptions catalogueType = inputAsker.askForCatalogue();
 
-        for (String bookInfo : booksInfoList) {
-            result.add(bookInfo);
+        if (catalogueType == CatalogueOptions.BOOK) {
+            infoList = bookCatalogue.listAvailableItemsInfo();
+        } else if (catalogueType == CatalogueOptions.MOVIE) {
+            infoList = movieCatalogue.listAvailableItemsInfo();
+        }
+
+        for (String info : infoList) {
+            result.add(info);
         }
 
         return result;
     }
 
-    private UserRequestResult tryToRentBook() {
+    private UserRequestResult tryToRent() {
+        Borrowable item = fetchItemFromCatalogue();
         UserRequestResult result = new UserRequestResult();
-        String title = inputAsker.askForName();
 
-        Borrowable book = catalogue.findByTitle(title);
-
-        if (book == null) {
-            result.add("Sorry, that book is not in our catalogue.");
-        } else if (!book.isAvailable()) {
-            result.add("Sorry, that book is already checked out. Check back soon.");
+        if (item == null) {
+            result.add("Sorry, that item is not in our catalogue.");
+        } else if (!item.isAvailable()) {
+            result.add("Sorry, that item is already checked out. Check back soon.");
         } else {
-            catalogue.rent(book);
-            result.add("You have rented the book " + title);
-            result.add("Thank you! Enjoy the book");
+            bookCatalogue.rent(item);
+            result.add("You have rented the item " + item.getTitle());
+            result.add("Thank you! Enjoy it.");
         }
 
         return result;
     }
 
-    private UserRequestResult tryToReturnBook() {
-        String bookName = inputAsker.askForName();
+    private UserRequestResult tryToReturn() {
+        Borrowable item = fetchItemFromCatalogue();
         UserRequestResult result = new UserRequestResult();
 
-        Borrowable book = catalogue.findByTitle(bookName);
-
-        if (book == null) {
-            result.add("Sorry, that book is not in our catalogue.");
-        } else if (book.isAvailable()) {
-            result.add("That book is already with us.");
+        if (item == null) {
+            result.add("Sorry, that item is not in our catalogue.");
+        } else if (item.isAvailable()) {
+            result.add("That item is already with us.");
         } else {
-            catalogue.giveBack(book);
-            result.add("Thank you for returning the book " + bookName);
+            bookCatalogue.giveBack(item);
+            result.add("Thank you for returning the item " + item.getTitle());
         }
 
         return result;
+    }
+
+    private Borrowable fetchItemFromCatalogue() {
+        CatalogueOptions catalogueType = inputAsker.askForCatalogue();
+        Borrowable item = null;
+        String title = inputAsker.askForTitle();
+
+        if (catalogueType == CatalogueOptions.BOOK) {
+            item = bookCatalogue.findByTitle(title);
+        } else if (catalogueType == CatalogueOptions.MOVIE) {
+            item = movieCatalogue.findByTitle(title);
+        }
+
+        return item;
     }
 }

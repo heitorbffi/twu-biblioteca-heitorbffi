@@ -1,9 +1,8 @@
 package com.twu.biblioteca;
 
 import java.time.Year;
-import java.util.Objects;
 
-public class Borrowable {
+public abstract class Borrowable {
     private String title;
     private Year publicationYear;
     private boolean available;
