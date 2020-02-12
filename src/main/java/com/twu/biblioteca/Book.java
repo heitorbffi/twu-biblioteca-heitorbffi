@@ -6,8 +6,8 @@ import java.util.Objects;
 public class Book extends Borrowable {
     private String author;
 
-    public Book (String title, Year publicationYear, String author, boolean available) {
-        super(title, publicationYear, available);
+    public Book (String title, Year publicationYear, String author, User user) {
+        super(title, publicationYear, user);
         this.author = author;
     }
 

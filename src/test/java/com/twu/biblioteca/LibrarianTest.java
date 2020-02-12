@@ -2,15 +2,12 @@ package com.twu.biblioteca;
 import org.junit.Test;
 
 import java.time.Year;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class LibrarianTest {
 
@@ -28,13 +25,13 @@ public class LibrarianTest {
 
         Set<Book> books = new LinkedHashSet<>();
 
-        books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", true));
-        books.add(new Book("Your Cat Hates You", Year.of(2018), "Cosmo Kramer", true));
-        books.add(new Book("Evolutionary Psychology", Year.of(1989), "David Buss", true));
-        books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar", true));
+        books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", null));
+        books.add(new Book("Your Cat Hates You", Year.of(2018), "Cosmo Kramer", null));
+        books.add(new Book("Evolutionary Psychology", Year.of(1989), "David Buss", null));
+        books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar", null));
 
         Librarian librarian = new Librarian(
-                new Catalogue<Book>(books), new Catalogue<Movie>(new LinkedHashSet<Movie>()), inputAsker);
+                new Catalogue<Book>(books), null, null, inputAsker, null);
         UserRequestResult result = librarian.processRequest(MenuOptions.LIST);
 
         assertEquals(expectedResult.toString(), result.toString());
@@ -52,12 +49,12 @@ public class LibrarianTest {
         expectedResult.append(String.format("%-25.25s %-25.25s %-25.25s %-25.25s\n", "My Home Movie", "Dad", "1994", "not rated"));
 
         Set<Movie> movies = new LinkedHashSet<>();
-        movies.add(new Movie("Bananas", Year.of(1970), "Woody Allen", true, 8));
-        movies.add(new Movie("7 Samurai", Year.of(1957), "Akira Kurosawa", true, 9));
-        movies.add(new Movie("My Home Movie", Year.of(1994), "Dad", true));
+        movies.add(new Movie("Bananas", Year.of(1970), "Woody Allen", 8, null));
+        movies.add(new Movie("7 Samurai", Year.of(1957), "Akira Kurosawa", 9, null));
+        movies.add(new Movie("My Home Movie", Year.of(1994), "Dad", null));
 
         Librarian librarian = new Librarian(
-                new Catalogue<Book>(new LinkedHashSet<Book>()), new Catalogue<Movie>(movies), inputAsker);
+                null, new Catalogue<Movie>(movies), null, inputAsker, null);
         UserRequestResult result = librarian.processRequest(MenuOptions.LIST);
 
         assertEquals(expectedResult.toString(), result.toString());
@@ -72,12 +69,12 @@ public class LibrarianTest {
 
         Set<Book> books = new LinkedHashSet<>();
 
-        books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", true));
-        books.add(new Book("Your Cat Hates You", Year.of(2018), "Cosmo Kramer", true));
-        books.add(new Book("Evolutionary Psychology", Year.of(1989), "David Buss", true));
-        books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar", true));
+        books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", null));
+        books.add(new Book("Your Cat Hates You", Year.of(2018), "Cosmo Kramer", null));
+        books.add(new Book("Evolutionary Psychology", Year.of(1989), "David Buss", null));
+        books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar", null));
         Librarian librarian = new Librarian(
-                new Catalogue<Book>(books), new Catalogue<Movie>(new LinkedHashSet<Movie>()), inputAsker);
+                new Catalogue<Book>(books), null, null, inputAsker, null);
         UserRequestResult result = librarian.processRequest(MenuOptions.RENT);
 
         StringBuffer expectedResult = new StringBuffer();
@@ -90,18 +87,25 @@ public class LibrarianTest {
     @Test
     public void should_take_rented_book_off_list() {
         InputAsker inputAsker = mock(InputAsker.class);
+        when(inputAsker.askForUserId()).thenReturn("000-0001");
+        when(inputAsker.askForPIN()).thenReturn("123456");
 
         when(inputAsker.askForTitle()).thenReturn("Zen Meditation");
         when(inputAsker.askForCatalogue()).thenReturn(CatalogueOptions.BOOK);
 
         Set<Book> books = new LinkedHashSet<>();
 
-        books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", true));
-        books.add(new Book("Your Cat Hates You", Year.of(2018), "Cosmo Kramer", true));
-        books.add(new Book("Evolutionary Psychology", Year.of(1989), "David Buss", true));
-        books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar", true));
+        books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", null));
+        books.add(new Book("Your Cat Hates You", Year.of(2018), "Cosmo Kramer", null));
+        books.add(new Book("Evolutionary Psychology", Year.of(1989), "David Buss", null));
+        books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar", null));
+
+        Set<User> userbase = new HashSet<>();
+        userbase.add(new User("000-0001", "123456"));
+
         Librarian librarian = new Librarian(
-                new Catalogue<Book>(books), new Catalogue<Movie>(new LinkedHashSet<Movie>()), inputAsker);
+                new Catalogue<Book>(books), null, userbase, inputAsker, new ConsolePrinter());
+        librarian.logIn();
         librarian.processRequest(MenuOptions.RENT);
         UserRequestResult result = librarian.processRequest(MenuOptions.LIST);
 
@@ -116,19 +120,26 @@ public class LibrarianTest {
     @Test
     public void should_put_returned_book_back_on_list() {
         InputAsker inputAsker = mock(InputAsker.class);
+        when(inputAsker.askForUserId()).thenReturn("000-0001");
+        when(inputAsker.askForPIN()).thenReturn("123456");
 
         when(inputAsker.askForTitle()).thenReturn("Zen Meditation");
         when(inputAsker.askForCatalogue()).thenReturn(CatalogueOptions.BOOK);
 
         Set<Book> books = new LinkedHashSet<>();
 
-        books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", true));
-        books.add(new Book("Your Cat Hates You", Year.of(2018), "Cosmo Kramer", true));
-        books.add(new Book("Evolutionary Psychology", Year.of(1989), "David Buss", true));
-        books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar", true));
-        Librarian librarian = new Librarian(
-                new Catalogue<Book>(books), new Catalogue<Movie>(new LinkedHashSet<Movie>()), inputAsker);
+        books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", null));
+        books.add(new Book("Your Cat Hates You", Year.of(2018), "Cosmo Kramer", null));
+        books.add(new Book("Evolutionary Psychology", Year.of(1989), "David Buss", null));
+        books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar", null));
 
+        Set<User> userbase = new HashSet<>();
+        userbase.add(new User("000-0001", "123456"));
+
+        Librarian librarian = new Librarian(
+                new Catalogue<Book>(books), null, userbase, inputAsker, new ConsolePrinter());
+
+        librarian.logIn();
         librarian.processRequest(MenuOptions.RENT);
         librarian.processRequest(MenuOptions.RETURN);
 
@@ -141,5 +152,25 @@ public class LibrarianTest {
         UserRequestResult result = librarian.processRequest(MenuOptions.LIST);
 
         assertEquals(expectedResult.toString(), result.toString());
+    }
+
+    @Test
+    public void should_log_in_user() {
+        InputAsker inputAsker = mock(InputAsker.class);
+        ConsolePrinter consolePrinter = mock(ConsolePrinter.class);
+
+        when(inputAsker.askForUserId()).thenReturn("000-0001");
+        when(inputAsker.askForPIN()).thenReturn("123456");
+
+        Set<User> userbase = new HashSet<>();
+        userbase.add(new User("000-0001", "123456"));
+
+        Librarian librarian = new Librarian(null, null, userbase, inputAsker, consolePrinter);
+        librarian.logIn();
+
+        UserRequestResult expectedResult = new UserRequestResult();
+        expectedResult.add("You have successfully logged in");
+
+        verify(consolePrinter, times(1)).print(expectedResult);
     }
 }

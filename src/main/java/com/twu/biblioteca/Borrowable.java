@@ -5,14 +5,13 @@ import java.time.Year;
 public abstract class Borrowable {
     private String title;
     private Year publicationYear;
-    private boolean available;
+    private User user;
 
-    public Borrowable (String title, Year publicationYear, boolean available){
+    public Borrowable (String title, Year publicationYear, User user){
         this.title = title;
         this.publicationYear = publicationYear;
-        this.available = available;
+        this.user = user;
     }
-
 
     public String getTitle() {
         return title;
@@ -22,15 +21,21 @@ public abstract class Borrowable {
         return publicationYear;
     }
 
-    public void rent() {
-        available = false;
+    public User getUser() {
+        return user;
     }
 
-    public void giveBack() {
-        available = true;
+    public void rent(User user) {
+        this.user = user;
+    }
+
+    public void giveBack(User user) {
+        if (user.equals(this.user)) {
+            this.user = null;
+        }
     }
 
     public boolean isAvailable() {
-        return available;
+        return user == null;
     }
 }

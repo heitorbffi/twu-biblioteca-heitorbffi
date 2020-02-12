@@ -34,25 +34,27 @@ public class Catalogue<T extends Borrowable> {
     public Borrowable createBorrowable(T borrowable) {
         if (borrowable instanceof Book) {
             Book book = (Book) borrowable;
-            return new Book(book.getTitle(), book.getPublicationYear(), book.getAuthor(), book.isAvailable());
+
+            return new Book(book.getTitle(), book.getPublicationYear(), book.getAuthor(), book.getUser());
         }
 
         Movie movie = (Movie) borrowable;
-        return new Movie(movie.getTitle(), movie.getPublicationYear(), movie.getDirector(), movie.isAvailable(), movie.getRating());
+
+        return new Movie(movie.getTitle(), movie.getPublicationYear(), movie.getDirector(), movie.getRating(), movie.getUser());
     }
 
-    public void rent(T borrowable) {
+    public void rent(User user, T borrowable) {
         for (T item : items) {
             if (item.equals(borrowable)) {
-                item.rent();
+                item.rent(user);
             }
         }
     }
 
-    public void giveBack(T borrowable) {
+    public void giveBack(User user, T borrowable) {
         for (T item : items) {
             if (item.equals(borrowable)) {
-                item.giveBack();
+                item.giveBack(user);
             }
         }
     }

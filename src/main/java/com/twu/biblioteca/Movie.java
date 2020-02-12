@@ -7,14 +7,14 @@ public class Movie extends Borrowable {
     private String director;
     private int rating;
 
-    public Movie (String title, Year publicationYear, String director, boolean available, int rating) {
-        super(title, publicationYear, available);
+    public Movie(String title, Year publicationYear, String director, int rating, User user) {
+        super(title, publicationYear, user);
         this.director = director;
         this.rating = rating;
     }
 
-    public Movie (String title, Year publicationYear, String director, boolean available) {
-        super(title, publicationYear, available);
+    public Movie (String title, Year publicationYear, String director, User user) {
+        super(title, publicationYear, user);
         this.director = director;
         this.rating = 0;
     }

@@ -20,4 +20,20 @@ public class InputAsker {
 
         return catalogueType;
     }
+
+    public String askForUserId() {
+        System.out.println("What is your user ID?");
+        Scanner scanner = new Scanner(System.in);
+
+        //validate it with regex, insert in while loop
+        return scanner.nextLine();
+    }
+
+    public String askForPIN() {
+        System.out.println("What is your user PIN?");
+        Scanner scanner = new Scanner(System.in);
+
+        //validate it with regex, insert in while loop
+        return scanner.nextLine();
+    }
 }

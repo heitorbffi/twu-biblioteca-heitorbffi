@@ -14,10 +14,10 @@ public class CatalogueTest {
     @Test
     public void should_list_books() {
         Set<Book> books = new LinkedHashSet<>();
-        books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", true));
-        books.add(new Book("Your Cat Hates You", Year.of(2018), "Cosmo Kramer", true));
-        books.add(new Book("Evolutionary Psychology", Year.of(1989), "David Buss", true));
-        books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar", true));
+        books.add(new Book("Zen Meditation", Year.of(1965), "Yaohui Ding", null));
+        books.add(new Book("Your Cat Hates You", Year.of(2018), "Cosmo Kramer", null));
+        books.add(new Book("Evolutionary Psychology", Year.of(1989), "David Buss", null));
+        books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar", null));
 
         List<String> expectedResult = new ArrayList<>();
         expectedResult.add(String.format("%-30.30s %-30.30s %-30.30s", "Zen Meditation", "Yaohui Ding", "1965"));
@@ -33,9 +33,9 @@ public class CatalogueTest {
     @Test
     public void should_list_movies() {
         Set<Movie> movies = new LinkedHashSet<>();
-        movies.add(new Movie("Bananas", Year.of(1970), "Woody Allen", true, 8));
-        movies.add(new Movie("7 Samurai", Year.of(1957), "Akira Kurosawa", true, 9));
-        movies.add(new Movie("My Home Movie", Year.of(1994), "Dad", true));
+        movies.add(new Movie("Bananas", Year.of(1970), "Woody Allen", 8, null));
+        movies.add(new Movie("7 Samurai", Year.of(1957), "Akira Kurosawa", 9, null));
+        movies.add(new Movie("My Home Movie", Year.of(1994), "Dad", null));
 
         List<String> expectedResult = new ArrayList<>();
         expectedResult.add(String.format("%-25.25s %-25.25s %-25.25s %-25.25s", "Bananas", "Woody Allen", "1970", "8"));
@@ -51,12 +51,13 @@ public class CatalogueTest {
     public void should_rent_movie() {
         Set<Borrowable> movies = new LinkedHashSet<>();
 
-        Borrowable movieToRent = new Movie("Bananas", Year.of(1970), "Woody Allen", true, 8);
+        Borrowable movieToRent = new Movie("Bananas", Year.of(1970), "Woody Allen", 8, null);
         movies.add(movieToRent);
 
         Catalogue<Borrowable> bookCatalogue = new Catalogue<>(movies);
+        User user = new User("000-0001", "123456");
 
-        bookCatalogue.rent(movieToRent);
+        bookCatalogue.rent(user, movieToRent);
 
         assertFalse(movieToRent.isAvailable());
     }
@@ -65,13 +66,14 @@ public class CatalogueTest {
     public void should_return_movie() {
         Set<Borrowable> movies = new LinkedHashSet<>();
 
-        Borrowable movieToRent = new Movie("Bananas", Year.of(1970), "Woody Allen", true, 8);
+        Borrowable movieToRent = new Movie("Bananas", Year.of(1970), "Woody Allen", 8, null);
         movies.add(movieToRent);
 
         Catalogue<Borrowable> bookCatalogue = new Catalogue<>(movies);
+        User user = new User("000-0001", "123456");
 
-        bookCatalogue.rent(movieToRent);
-        bookCatalogue.giveBack(movieToRent);
+        bookCatalogue.rent(user, movieToRent);
+        bookCatalogue.giveBack(user, movieToRent);
 
         assertTrue(movieToRent.isAvailable());
     }
