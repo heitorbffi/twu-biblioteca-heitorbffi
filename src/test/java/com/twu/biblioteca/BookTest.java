@@ -23,7 +23,7 @@ public class BookTest {
 
     @Test
     public void changes_available_status_to_returned() {
-        User user = new User("000-0001", "123456");
+        User user = new User("000-0001", "123456", null, null, null);
 
         Book book = new Book("BookName", Year.of(2020), "Author", null);
         book.rent(user);
@@ -34,8 +34,8 @@ public class BookTest {
 
     @Test
     public void does_not_change_status_to_available_when_user_is_different() {
-        User user = new User("000-0001", "123456");
-        User wrongUser = new User("000-0002", "123456");
+        User user = new User("000-0001", "123456", null, null, null);
+        User wrongUser = new User("000-0002", "123456", null, null, null);
 
         Book book = new Book("BookName", Year.of(2020), "Author", null);
 

@@ -57,6 +57,8 @@ public class Librarian {
                 return tryToRent();
             case RETURN:
                 return tryToReturn();
+            case USER:
+                return listUserInfo();
             default:
                 UserRequestResult result = new UserRequestResult();
                 result.add("Please select a valid option!");
@@ -147,5 +149,17 @@ public class Librarian {
         }
 
         return item;
+    }
+
+    private UserRequestResult listUserInfo() {
+        UserRequestResult result = new UserRequestResult();
+
+        if (currentUser != null) {
+            result.add(currentUser.getInfo());
+        } else {
+            result.add("No user logged in!");
+        }
+
+        return result;
     }
 }

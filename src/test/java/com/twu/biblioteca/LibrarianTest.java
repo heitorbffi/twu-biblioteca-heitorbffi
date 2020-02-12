@@ -101,7 +101,7 @@ public class LibrarianTest {
         books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar", null));
 
         Set<User> userbase = new HashSet<>();
-        userbase.add(new User("000-0001", "123456"));
+        userbase.add(new User("000-0001", "123456", null, null, null));
 
         Librarian librarian = new Librarian(
                 new Catalogue<Book>(books), null, userbase, inputAsker, new ConsolePrinter());
@@ -134,7 +134,7 @@ public class LibrarianTest {
         books.add(new Book("Ancient History", Year.of(30), "Iulius Caesar", null));
 
         Set<User> userbase = new HashSet<>();
-        userbase.add(new User("000-0001", "123456"));
+        userbase.add(new User("000-0001", "123456", null, null, null));
 
         Librarian librarian = new Librarian(
                 new Catalogue<Book>(books), null, userbase, inputAsker, new ConsolePrinter());
@@ -163,7 +163,7 @@ public class LibrarianTest {
         when(inputAsker.askForPIN()).thenReturn("123456");
 
         Set<User> userbase = new HashSet<>();
-        userbase.add(new User("000-0001", "123456"));
+        userbase.add(new User("000-0001", "123456", null, null, null));
 
         Librarian librarian = new Librarian(null, null, userbase, inputAsker, consolePrinter);
         librarian.logIn();
@@ -172,5 +172,29 @@ public class LibrarianTest {
         expectedResult.add("You have successfully logged in");
 
         verify(consolePrinter, times(1)).print(expectedResult);
+    }
+
+    @Test
+    public void should_get_user_info() {
+        InputAsker inputAsker = mock(InputAsker.class);
+        ConsolePrinter consolePrinter = mock(ConsolePrinter.class);
+
+        when(inputAsker.askForUserId()).thenReturn("000-0001");
+        when(inputAsker.askForPIN()).thenReturn("123456");
+
+        Set<User> userbase = new HashSet<>();
+        userbase.add(new User("000-0001", "123456", "Librarian",
+                "librarian@biblioteca.com", "(520) 589-9885"));
+
+        Librarian librarian = new Librarian(null, null, userbase, inputAsker, consolePrinter);
+        librarian.logIn();
+
+        UserRequestResult result = librarian.processRequest(MenuOptions.USER);
+
+        UserRequestResult expectedResult = new UserRequestResult();
+        String expectedUserInfo = "Name: Librarian\nEmail: librarian@biblioteca.com\nPhone: (520) 589-9885";
+        expectedResult.add(expectedUserInfo);
+
+        assertEquals(expectedResult, result);
     }
 }

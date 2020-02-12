@@ -4,5 +4,6 @@ public enum MenuOptions {
     LIST,
     RENT,
     RETURN,
+    USER,
     QUIT
 }

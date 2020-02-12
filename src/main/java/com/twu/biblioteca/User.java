@@ -1,14 +1,19 @@
 package com.twu.biblioteca;
-
 import java.util.Objects;
 
 public class User {
     private final String id;
-    private final String PIN;
+    private String PIN;
+    private String name;
+    private String email;
+    private String phone;
 
-    public User(String id, String PIN) {
+    public User(String id, String PIN, String name, String email, String phone) {
         this.id = id;
         this.PIN = PIN;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
     }
 
     public String getId() {
@@ -30,5 +35,14 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public StringBuffer getInfo() {
+        StringBuffer info = new StringBuffer();
+        info.append("Name: ").append(name).append("\n");
+        info.append("Email: ").append(email).append("\n");
+        info.append("Phone: ").append(phone);
+
+        return info;
     }
 }

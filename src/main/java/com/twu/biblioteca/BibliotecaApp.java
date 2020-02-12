@@ -7,14 +7,12 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class BibliotecaApp {
-
     public static void main(String[] args) {
         System.out.println(createWelcomeMessage());
 
         Catalogue<Book> bookCatalogue = createBookCatalogue();
         Catalogue<Movie> movieCatalogue = createMovieCatalogue();
-        Set<User> userbase = new HashSet<>();
-        userbase.add(new User("000-0001", "123456"));
+        Set<User> userbase = createUserBase();
         Librarian librarian = new Librarian(bookCatalogue, movieCatalogue, userbase, new InputAsker(), new ConsolePrinter());
 
         librarian.logIn();
@@ -27,6 +25,16 @@ public class BibliotecaApp {
             String command = scanner.next();
             askForInput = processCommand(librarian, command);
         }
+    }
+
+    private static Set<User> createUserBase() {
+        Set<User> userbase = new HashSet<>();
+        userbase.add(new User("000-0001", "123456",
+                "LibrarianBot", "librarian@biblioteca.com", "(800) 000-0001"));
+        userbase.add(new User("999-9999", "999999",
+                "Heitor F. Inhaquites", "heitor.inhaquites@gmail.com", "(520) 589-9885"));
+
+        return userbase;
     }
 
     private static Catalogue<Book> createBookCatalogue() {

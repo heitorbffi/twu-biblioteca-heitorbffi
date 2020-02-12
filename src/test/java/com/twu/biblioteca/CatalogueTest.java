@@ -55,7 +55,7 @@ public class CatalogueTest {
         movies.add(movieToRent);
 
         Catalogue<Borrowable> bookCatalogue = new Catalogue<>(movies);
-        User user = new User("000-0001", "123456");
+        User user = new User("000-0001", "123456", null, null, null);
 
         bookCatalogue.rent(user, movieToRent);
 
@@ -70,7 +70,7 @@ public class CatalogueTest {
         movies.add(movieToRent);
 
         Catalogue<Borrowable> bookCatalogue = new Catalogue<>(movies);
-        User user = new User("000-0001", "123456");
+        User user = new User("000-0001", "123456", null, null, null);
 
         bookCatalogue.rent(user, movieToRent);
         bookCatalogue.giveBack(user, movieToRent);

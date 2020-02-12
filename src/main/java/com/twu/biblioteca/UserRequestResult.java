@@ -9,6 +9,10 @@ public class UserRequestResult {
         resultMessage.append(message + "\n");
     }
 
+    public void add(StringBuffer message) {
+        resultMessage.append(message + "\n");
+    }
+
     @Override
     public String toString() {
         return resultMessage.toString();
