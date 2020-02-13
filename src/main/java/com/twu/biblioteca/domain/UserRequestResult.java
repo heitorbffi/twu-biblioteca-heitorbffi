@@ -1,4 +1,4 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.domain;
 
 import java.util.Objects;
 
@@ -11,6 +11,10 @@ public class UserRequestResult {
 
     public void add(StringBuffer message) {
         resultMessage.append(message + "\n");
+    }
+
+    public void add(UserRequestResult result) {
+        resultMessage.append(result.toString());
     }
 
     @Override

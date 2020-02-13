@@ -1,4 +1,6 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.utils;
+
+import com.twu.biblioteca.domain.CatalogueOptions;
 
 import java.util.Scanner;
 

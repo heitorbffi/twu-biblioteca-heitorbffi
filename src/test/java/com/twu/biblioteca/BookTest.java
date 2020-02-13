@@ -1,5 +1,7 @@
 package com.twu.biblioteca;
 
+import com.twu.biblioteca.domain.Book;
+import com.twu.biblioteca.domain.User;
 import org.junit.Test;
 
 import java.time.Year;

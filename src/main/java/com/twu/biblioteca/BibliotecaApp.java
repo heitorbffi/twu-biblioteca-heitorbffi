@@ -1,9 +1,12 @@
 package com.twu.biblioteca;
 
+import com.twu.biblioteca.domain.*;
+import com.twu.biblioteca.utils.ConsolePrinter;
+import com.twu.biblioteca.utils.InputAsker;
+
 import java.time.Year;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.Scanner;
 import java.util.Set;
 
 public class BibliotecaApp {
@@ -16,15 +19,7 @@ public class BibliotecaApp {
         Librarian librarian = new Librarian(bookCatalogue, movieCatalogue, userbase, new InputAsker(), new ConsolePrinter());
 
         librarian.logIn();
-
-        Scanner scanner = new Scanner(System.in);
-
-        Boolean askForInput = true;
-        while (askForInput) {
-            showMenu();
-            String command = scanner.next();
-            askForInput = processCommand(librarian, command);
-        }
+        librarian.serveUser();
     }
 
     private static Set<User> createUserBase() {
@@ -56,27 +51,6 @@ public class BibliotecaApp {
         movies.add(new Movie("My Home Movie", Year.of(1994), "Dad", null));
 
         return new Catalogue<>(movies);
-    }
-
-    private static void showMenu() {
-        System.out.println("Choose an option from the menu below, by typing it:");
-        for (MenuOptions option : MenuOptions.values()) {
-            System.out.println(option);
-        }
-    }
-
-    //task this to librarian
-    private static boolean processCommand(Librarian librarian, String command) {
-        command = command.toLowerCase();
-        if (MenuOptions.valueOf(command.toUpperCase()) == MenuOptions.QUIT) {
-            System.out.println("Thanks for using the library, have a worthwhile day.");
-
-            return false;
-        }
-
-        System.out.println(librarian.processRequest(MenuOptions.valueOf(command.toUpperCase())));
-
-        return true;
     }
 
     public static String createWelcomeMessage() {

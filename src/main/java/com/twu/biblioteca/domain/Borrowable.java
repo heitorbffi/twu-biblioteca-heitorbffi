@@ -1,4 +1,6 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.domain;
+
+import com.twu.biblioteca.domain.User;
 
 import java.time.Year;
 

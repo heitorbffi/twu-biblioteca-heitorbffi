@@ -1,5 +1,9 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.domain;
+import com.twu.biblioteca.utils.ConsolePrinter;
+import com.twu.biblioteca.utils.InputAsker;
+
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 public class Librarian {
@@ -17,6 +21,32 @@ public class Librarian {
         this.userbase = userbase;
         this.inputAsker = inputAsker;
         this.consolePrinter = consolePrinter;
+    }
+
+    public void serveUser() {
+        showMenu();
+
+        Scanner scanner = new Scanner(System.in);
+        String command = scanner.next();
+
+        ConsolePrinter printer = new ConsolePrinter();
+        MenuOptions option = null;
+
+        try {
+            option = MenuOptions.valueOf(command.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            printer.print("Invalid option! Please choose again.");
+            serveUser();
+        }
+
+        processRequest(option);
+    }
+
+    private void showMenu() {
+        consolePrinter.print("Choose an option from the menu below, by typing it:");
+        for (MenuOptions option : MenuOptions.values()) {
+            consolePrinter.print(option.toString());
+        }
     }
 
     public void logIn() {
@@ -41,30 +71,41 @@ public class Librarian {
                 } else {
                     result.add("The PIN is not correct.");
                 }
-            } else {
-                result.add("That username is not in our database");
+                return result;
             }
         }
 
+        result.add("That username is not in our database");
         return result;
     }
 
-    public UserRequestResult processRequest(MenuOptions request) {
+    // should be private maybe?
+    public void processRequest(MenuOptions request) {
+        UserRequestResult result = new UserRequestResult();
+        ConsolePrinter printer = new ConsolePrinter();
+
         switch(request) {
             case LIST:
-                return listItems();
+                result.add(listItems());
+                break;
             case RENT:
-                return tryToRent();
+                result.add(tryToRent());
+                break;
             case RETURN:
-                return tryToReturn();
+                result.add(tryToReturn());
+                break;
             case USER:
-                return listUserInfo();
-            default:
-                UserRequestResult result = new UserRequestResult();
-                result.add("Please select a valid option!");
+                result.add(listUserInfo());
+                break;
+            case QUIT:
+                result.add(quitApp());
+                printer.print(result);
 
-                return result;
+                return;
         }
+
+        printer.print(result);
+        serveUser();
     }
 
     private UserRequestResult listItems() {
@@ -159,6 +200,13 @@ public class Librarian {
         } else {
             result.add("No user logged in!");
         }
+
+        return result;
+    }
+
+    private UserRequestResult quitApp() {
+        UserRequestResult result = new UserRequestResult();
+        result.add("Thank you for using the library, have a worthwhile day.");
 
         return result;
     }

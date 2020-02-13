@@ -1,4 +1,4 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.domain;
 import java.util.Objects;
 
 public class User {

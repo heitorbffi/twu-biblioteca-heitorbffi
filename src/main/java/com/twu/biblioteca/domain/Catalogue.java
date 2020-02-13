@@ -1,4 +1,9 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.domain;
+
+import com.twu.biblioteca.domain.Book;
+import com.twu.biblioteca.domain.Borrowable;
+import com.twu.biblioteca.domain.Movie;
+import com.twu.biblioteca.domain.User;
 
 import java.util.ArrayList;
 import java.util.List;
