@@ -1,9 +1,9 @@
 package com.twu.biblioteca.domain;
 import com.twu.biblioteca.utils.ConsolePrinter;
 import com.twu.biblioteca.utils.InputAsker;
+import com.twu.biblioteca.utils.RequestConverter;
 
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
 
 public class Librarian {
@@ -26,16 +26,13 @@ public class Librarian {
     public void serveUser() {
         showMenu();
 
-        Scanner scanner = new Scanner(System.in);
-        String command = scanner.next();
+        String command = inputAsker.askForOption();
 
-        ConsolePrinter printer = new ConsolePrinter();
         MenuOptions option = null;
-
         try {
-            option = MenuOptions.valueOf(command.toUpperCase());
+            option = RequestConverter.convertToMenuOption(command);
         } catch (IllegalArgumentException e) {
-            printer.print("Invalid option! Please choose again.");
+            consolePrinter.print("Invalid option! Please choose again.");
             serveUser();
         }
 
@@ -79,10 +76,8 @@ public class Librarian {
         return result;
     }
 
-    // should be private maybe?
     public void processRequest(MenuOptions request) {
         UserRequestResult result = new UserRequestResult();
-        ConsolePrinter printer = new ConsolePrinter();
 
         switch(request) {
             case LIST:
@@ -99,19 +94,20 @@ public class Librarian {
                 break;
             case QUIT:
                 result.add(quitApp());
-                printer.print(result);
+                consolePrinter.print(result);
 
                 return;
         }
 
-        printer.print(result);
+        consolePrinter.print(result);
         serveUser();
     }
 
     private UserRequestResult listItems() {
         UserRequestResult result = new UserRequestResult();
         List<String> infoList = null;
-        CatalogueOptions catalogueType = inputAsker.askForCatalogue();
+
+        CatalogueOptions catalogueType = getCatalogueTypeFromUser();
 
         if (catalogueType == CatalogueOptions.BOOK) {
             infoList = bookCatalogue.listAvailableItemsInfo();
@@ -152,7 +148,6 @@ public class Librarian {
         return result;
     }
 
-    //shares a lot with method above. abstract and avoid repeating.
     private UserRequestResult tryToReturn() {
         Borrowable item = fetchItemFromCatalogue();
         UserRequestResult result = new UserRequestResult();
@@ -179,7 +174,7 @@ public class Librarian {
     }
 
     private Borrowable fetchItemFromCatalogue() {
-        CatalogueOptions catalogueType = inputAsker.askForCatalogue();
+        CatalogueOptions catalogueType = getCatalogueTypeFromUser();
         Borrowable item = null;
         String title = inputAsker.askForTitle();
 
@@ -209,5 +204,19 @@ public class Librarian {
         result.add("Thank you for using the library, have a worthwhile day.");
 
         return result;
+    }
+
+    private CatalogueOptions getCatalogueTypeFromUser() {
+        String command = inputAsker.askForCatalogue();
+
+        CatalogueOptions catalogueType = null;
+        try {
+            catalogueType = RequestConverter.convertToCatalogueOption(command.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            consolePrinter.print("Invalid option! Please try again.");
+            catalogueType = getCatalogueTypeFromUser();
+        }
+
+        return catalogueType;
     }
 }
